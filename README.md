@@ -64,3 +64,9 @@ When your output grid is ready, click the green "Submit!" button to check your a
 After you've obtained the correct answer for the current test input grid, you can switch to the next test input grid for the task using the "Next test input" button (if there is any available; most tasks only have one test input).
 
 When you're done with a task, use the "load task" button to open a new task.
+
+### Hand-coding solutions for the Abstraction and Reasoning Corpus
+
+##### The proposal is to solve three tasks by using either an AI system or any programming technique.
+
+With respect to the 6a1e5592 and ded97339 tasks, the motivation was not only using recursion to reduce complexity by writing a couple of lines of code to solve the task, but also making easier the debugging process. According to F. Chollet - 2019, humans show excellent performance on 2D navigation tasks and 2D shape-packing puzzles. However, writing lines of code to "navigate through a path" turns out to be not as trivial as walking, so to speak.

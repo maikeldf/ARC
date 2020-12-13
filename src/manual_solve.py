@@ -10,14 +10,86 @@ import re
 ### result. Name them according to the task ID as in the three
 ### examples below. Delete the three examples. The tasks you choose
 ### must be in the data/training directory, not data/evaluation.
-def solve_6a1e5592(x):
+"""def solve_6a1e5592(x):
     return x
 
 def solve_b2862040(x):
+    return x"""
+
+def ded97339(coord, bricks, x):
+    x[coord] = 0
+    lost = []
+
+    if not np.where(np.array(x)==8)[0].size:
+        return []
+
+    bricks.append([np.where(np.array(x)==8)[0][0], np.where(np.array(x)==8)[1][0]] if np.where(np.array(x)==8)[0].size else 0)
+
+    lost = ded97339((bricks[-1][0], bricks[-1][1]), bricks, x)
+
+    pointA = bricks.pop()
+
+    def draw_point(a, b):
+        x[a, b] = 8
+
+    def draw_line(l, x):
+        [ draw_point(l[0][0][0], i) for i in range(l[0][0][1], l[0][1][1]) if l[0][0][0] == l[0][1][0] ]
+        [ draw_point(i, l[0][1][1]) for i in range(l[0][0][0], l[0][1][0]) if l[0][0][1] == l[0][1][1] ]
+        x[l[0][1][0],l[0][1][1]] = 8
+
+    pointB = []
+    if np.where(np.array(bricks) == pointA[0])[0].size and bricks[np.where(np.array(bricks) == pointA[0])[0][0]][0] == pointA[0]:
+        pointB = [bricks[np.where(np.array(bricks) == pointA[0])[0][0]][0], bricks[np.where(np.array(bricks) == pointA[0])[0][0]][1]]
+
+        draw_line([[pointB,pointA] if pointA>pointB else [pointA,pointB]], x)
+
+    if np.where(np.array(bricks) == pointA[1])[0].size and bricks[np.where(np.array(bricks) == pointA[1])[0][0]][1] == pointA[1]:
+        pointB = [bricks[np.where(np.array(bricks) == pointA[1])[0][0]][0], bricks[np.where(np.array(bricks) == pointA[1])[0][0]][1]]
+
+        draw_line([[pointB,pointA] if pointA>pointB else [pointA,pointB]], x)
+
+    if not pointB:
+        lost.append(pointA)
+
+    [draw_point(i[0],i[1]) for i in bricks]
+
+    return lost
+
+def solve_ded97339(x):
+    bricks = []
+    if np.where(np.array(x)==8)[0].size:
+        bricks.append([np.where(np.array(x)==8)[0][0], np.where(np.array(x)==8)[1][0]] if np.where(np.array(x)==8)[0].size else 0)
+        lost = ded97339((bricks[-1][0], bricks[-1][1]), bricks, x)
+        def draw(p): x[p[0],p[1]] = 8
+        [draw(l) for l in lost if x[l[0],l[1]] == 0]
+
     return x
 
-def solve_05269061(x):
-    return x
+def step_a2fd1cf0(X, Y, walker):
+    endPoint = [np.where(walker==2)[0][0], np.where(walker==2)[1][0]]
+    walker[Y][X] = 8
+    free = 0
+
+    # Check whether we have find our goal.
+    if (endPoint[1] in [X, X-1, X+1] and endPoint[0] in [Y, Y-1, Y+1]):
+        return True
+
+    # Recursive search.
+    if (walker[Y - 1][X] == free and Y > endPoint[0] and step_a2fd1cf0(X, Y - 1,walker)):
+        return True
+    if (walker[Y + 1][X] == free and Y != endPoint[0] and step_a2fd1cf0(X, Y + 1,walker)):
+        return True
+    if (walker[Y][X - 1] == free and X > endPoint[1] and step_a2fd1cf0(X - 1, Y,walker)):
+        return True
+    if (walker[Y][X + 1] == free and X != endPoint[1] and step_a2fd1cf0(X + 1, Y,walker)):
+        return True
+
+def solve_a2fd1cf0(x):
+    walker = np.array(x)
+    endPoint = [np.where(walker==3)[0][0], np.where(walker==3)[1][0]]
+    step_a2fd1cf0(np.where(walker==3)[1][0], np.where(walker==3)[0][0], walker)
+    walker[endPoint[0],endPoint[1]] = 3
+    return walker
 
 
 def main():
